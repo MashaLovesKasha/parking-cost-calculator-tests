@@ -2,14 +2,10 @@ beforeEach(() => {
   cy.visit('/webpark')
 })
 
-const currentDay = new Date()
-const nextDay = new Date(currentDay)
-nextDay.setDate(currentDay.getDate() + 1)
 
-
-describe('Front page', () => {
+describe('Home page', () => {
   describe('Reservation details block', () => {
-    it('Checks the reservation details block', () => {
+    it('Checks the "Reservation details" form elements', () => {
       // I'd add visual tests here to check the whole block
       const formElements = ['parkingLot', 'entryDate', 'exitDate', 'exitTime', 'calculateCost']
 
@@ -28,31 +24,28 @@ describe('Front page', () => {
     })
     // I'd add more checks here for each parking lot options
     it('Calculates cost for valet parking correctly', () => {
-      // I need to format dates here to get this yyyy-mm-dd format
-      cy.formatDate(currentDay).then((formattedCurrentDay) => {
-        cy.formatDate(nextDay).then((formattedNextDay) => {
-          cy.fillReservationDetailsForm('Valet Parking', formattedCurrentDay, '15:10', formattedNextDay, '15:11')
-          cy.get('[id="result"]')
-              .should('be.visible')
-              .find('[id="resultValue"]')
-              .should('have.text','36.00€')
-        })
-      })
+      cy.fillReservationDetailsForm('Valet Parking', Cypress.todayDate, Cypress.entryTime, Cypress.tomorrowDate, Cypress.exitTime)
+      cy.get('[id="result"]')
+          .should('be.visible')
+          .find('[id="resultValue"]')
+          .should('have.text',Cypress.parkingPrice)
+      cy.get('[id="reserveOnline"]')
+          .should('be.visible')
+          .contains('Book Now!')
     })
-    // This one fails, I think the form has a bug here. The parking cost should be 3€ in this case
+    // This one fails, I think the form has a bug here
+    // The parking cost should be 3€ in this case
     it('Calculates cost short-term parking correctly', () => {
-      cy.formatDate(currentDay).then((formattedCurrentDay) => {
-        cy.fillReservationDetailsForm('Short-Term Parking', formattedCurrentDay, '15:10', formattedCurrentDay, '16:30')
-        cy.get('[id="result"]')
-            .should('be.visible')
-            .find('[id="resultValue"]')
-            .should('have.text','3.00€')
-      })
+      cy.fillReservationDetailsForm('Short-Term Parking', Cypress.todayDate, '15:10', Cypress.todayDate, '16:30')
+      cy.get('[id="result"]')
+          .should('be.visible')
+          .find('[id="resultValue"]')
+          .should('have.text','3.00€')
     })
     // Not an important test, but I wanted to check an invalid case
     // I'd add more tests for invalid data here
     it('Checks invalid date input', () => {
-      cy.fillReservationDetailsForm('Valet Parking', '2024-06-10', '15:10', '2024-06-09', '15:10')
+      cy.fillReservationDetailsForm('Valet Parking', Cypress.tomorrowDate, '09:10', Cypress.todayDate, '00:00')
       cy.get('[id="result"]')
           .should('be.visible')
           .contains('The entry date and time must be before the exit date and time!')
@@ -61,7 +54,7 @@ describe('Front page', () => {
 
   describe('Parking rates block', () => {
     // Not an important test, but I wanted to check some UI elements
-    it('Checks the parking rates block', () => {
+    it('Checks the "Parking rates" form elements', () => {
       // I'd add visual tests here to check the whole block
       cy.contains('h5', 'Parking Rates')
           .parent()

@@ -37,7 +37,11 @@ Cypress.Commands.add('fillReservationDetailsForm', (lot, entryDate, entryTime, e
         .click()
 })
 
-Cypress.Commands.add('formatDate', (date) => {
-    return date.toISOString().slice(0, 10)
+Cypress.Commands.add('sendReservationDetailsForm', (lot, entryDate, entryTime, exitDate, exitTime) => {
+    cy.fillReservationDetailsForm(lot, entryDate, entryTime, exitDate, exitTime)
+    cy.get('[id="actions"]')
+        .contains('Book Now!')
+        .click()
+    cy.wait(300)
+    cy.url().should('include', '/webpark/booking/')
 })
-
