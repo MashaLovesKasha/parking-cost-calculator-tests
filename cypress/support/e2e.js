@@ -2,6 +2,7 @@ import './home-commands'
 import './booking-details-commands'
 import './payment-details-commands'
 import './confirmation-commands'
+import './common-comands'
 
 
 const todayDate = new Date()
@@ -26,3 +27,8 @@ Cypress.lastName = 'Testonen'
 Cypress.email = 'test@test.test'
 Cypress.phoneNumber = '05051155'
 Cypress.licenseNumber = 'test1234'
+
+// For payment details page
+Cypress.cardNumber = '5200828282828223'
+Cypress.expirationDate = '1290'
+Cypress.CVC = '123'

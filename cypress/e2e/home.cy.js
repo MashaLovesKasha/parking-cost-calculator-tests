@@ -6,7 +6,6 @@ beforeEach(() => {
 describe('Home page', () => {
   describe('Reservation details block', () => {
     it('Checks the "Reservation details" form elements', () => {
-      // I'd add visual tests here to check the whole block
       const formElements = ['parkingLot', 'entryDate', 'exitDate', 'exitTime', 'calculateCost']
 
       cy.contains('h5', 'Reservation details')
@@ -28,7 +27,7 @@ describe('Home page', () => {
       cy.get('[id="result"]')
           .should('be.visible')
           .find('[id="resultValue"]')
-          .should('have.text',Cypress.parkingPrice)
+          .should('have.text', Cypress.parkingPrice)
       cy.get('[id="reserveOnline"]')
           .should('be.visible')
           .contains('Book Now!')
@@ -36,11 +35,15 @@ describe('Home page', () => {
     // This one fails, I think the form has a bug here
     // The parking cost should be 3€ in this case
     it('Calculates cost short-term parking correctly', () => {
-      cy.fillReservationDetailsForm('Short-Term Parking', Cypress.todayDate, '15:10', Cypress.todayDate, '16:30')
-      cy.get('[id="result"]')
-          .should('be.visible')
-          .find('[id="resultValue"]')
+      cy.fillReservationDetailsForm('Short-Term Parking', Cypress.todayDate, Cypress.entryTime, Cypress.todayDate, '16:30')
+      cy.get('[id="resultValue"]')
           .should('have.text','3.00€')
+    })
+    it('Sends reservation details to start booking process', () => {
+      cy.fillReservationDetailsForm('Long-Term Garage Parking', Cypress.todayDate, '10:00', Cypress.tomorrowDate, '12:01')
+      cy.get('[id="resultValue"]')
+          .should('have.text','18.00€')
+      cy.sendReservationDetailsForm('Long-Term Garage Parking', Cypress.todayDate, '10:00', Cypress.tomorrowDate, '12:01')
     })
     // Not an important test, but I wanted to check an invalid case
     // I'd add more tests for invalid data here
@@ -55,7 +58,6 @@ describe('Home page', () => {
   describe('Parking rates block', () => {
     // Not an important test, but I wanted to check some UI elements
     it('Checks the "Parking rates" form elements', () => {
-      // I'd add visual tests here to check the whole block
       cy.contains('h5', 'Parking Rates')
           .parent()
           .as('parking-rates')
