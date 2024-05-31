@@ -1,2 +1,26 @@
 # parking-cost-calculator-tests
-Tests for parking cost calculator
+Tests for parking cost calculator https://practice.expandtesting.com/webpark
+
+## Pre-requirements
+You need [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) to be installed to install proper version of node
+
+## Setup
+- `nvm use`
+- `npm install`
+
+## Usage
+To run tests with visual debugger
+- `npm run cy:open`
+
+The test order doesn't matter, you can run them as you wish, but I'd recommend to run them in this order (just because of the order):
+- `home.cy.js`
+- `booking-details.cy.js`
+- `payment-details.cy.js`
+- `confirmation.cy.js`
+
+
+To run tests in the console
+- `npm run cy:run`
+
+If you want to see the report, open `cypress/reports/html/index.html` file
+
