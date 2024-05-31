@@ -2,6 +2,7 @@ import './home-commands'
 import './booking-details-commands'
 import './payment-details-commands'
 import './common-comands'
+import 'cypress-mochawesome-reporter/register'
 
 
 const todayDate = new Date()

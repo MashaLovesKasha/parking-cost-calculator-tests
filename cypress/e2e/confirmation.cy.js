@@ -1,4 +1,4 @@
-beforeEach(() => {
+before(() => {
     cy.visit('/webpark')
 
     cy.log('Send reservation details to proceed to the next step')
