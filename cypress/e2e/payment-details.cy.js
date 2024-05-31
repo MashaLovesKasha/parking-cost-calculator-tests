@@ -6,6 +6,7 @@ beforeEach(() => {
     cy.log('Send booking details to proceed to the payment')
     cy.sendBookingDetailsForm(Cypress.firstName, Cypress.lastName, Cypress.email, Cypress.phoneNumber,'Small car', Cypress.licenseNumber)
 })
+
 describe('Payment details page', () => {
     it('Checks the form elements', () => {
         const formElements = ['cardNumber', 'expirationDate', 'securityCode']
@@ -27,7 +28,7 @@ describe('Payment details page', () => {
         cy.sendPaymentDetailsForm(Cypress.cardNumber, Cypress.expirationDate, Cypress.CVC)
     })
     // I added the simple negative check, would be nice to add more
-    it('Checks the number of field validation', () => {
+    it('Checks the number of field validations', () => {
         cy.get('form')
             .contains('Complete Reservation')
             .click()

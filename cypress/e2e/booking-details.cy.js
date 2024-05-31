@@ -20,13 +20,13 @@ describe('Booking details page', () => {
     })
   })
   it('Checks the summary is correct', () => {
-    cy.checkSummary('Valet', Cypress.todayDate, Cypress.entryTime, Cypress.tomorrowDate, Cypress.exitTime, Cypress.parkingPrice)
+    cy.checkSummary( 'Valet', Cypress.todayDate, Cypress.entryTime, Cypress.tomorrowDate, Cypress.exitTime, Cypress.parkingPrice)
   })
   it('Sends booking details to continue booking process', () => {
     cy.sendBookingDetailsForm(Cypress.firstName, Cypress.lastName, Cypress.email, Cypress.phoneNumber,'Small car', Cypress.licenseNumber)
   })
   // I added the simple negative check, would be nice to add more
-  it('Checks the number of field validation', () => {
+  it('Checks the number of field validations', () => {
     cy.get('form')
         .contains('Continue')
         .click()

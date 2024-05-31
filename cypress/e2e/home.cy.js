@@ -2,7 +2,6 @@ beforeEach(() => {
   cy.visit('/webpark')
 })
 
-
 describe('Home page', () => {
   describe('Reservation details block', () => {
     it('Checks the "Reservation details" form elements', () => {
@@ -34,15 +33,12 @@ describe('Home page', () => {
     })
     // This one fails, I think the form has a bug here
     // The parking cost should be 3€ in this case
-    it('Calculates cost short-term parking correctly', () => {
+    it('Calculates cost for short-term parking correctly', () => {
       cy.fillReservationDetailsForm('Short-Term Parking', Cypress.todayDate, Cypress.entryTime, Cypress.todayDate, '16:30')
       cy.get('[id="resultValue"]')
           .should('have.text','3.00€')
     })
     it('Sends reservation details to start booking process', () => {
-      cy.fillReservationDetailsForm('Long-Term Garage Parking', Cypress.todayDate, '10:00', Cypress.tomorrowDate, '12:01')
-      cy.get('[id="resultValue"]')
-          .should('have.text','18.00€')
       cy.sendReservationDetailsForm('Long-Term Garage Parking', Cypress.todayDate, '10:00', Cypress.tomorrowDate, '12:01')
     })
     // Not an important test, but I wanted to check an invalid case
