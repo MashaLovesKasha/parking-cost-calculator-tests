@@ -1,6 +1,6 @@
 Cypress.Commands.add('checkSummary', (lot, entryDate, entryTime, exitDate, exitTime, parkingPrice) => {
-    cy.contains('h4', 'Booking Summary')
-        .parent()
+    cy.get('[id="reservationDetails"]')
+        .as('summary')
         .should('be.visible')
 
     ;[
@@ -17,12 +17,12 @@ Cypress.Commands.add('checkSummary', (lot, entryDate, entryTime, exitDate, exitT
             value: `${exitDate} ${exitTime}`,
         },
     ].forEach(({summaryItem, value}) => {
-        cy.get('[id="reservationDetails"]')
+        cy.get('@summary')
             .contains('h6', summaryItem)
             .parents('li')
             .contains(value)
     })
-    cy.get('[id="reservationDetails"]')
+    cy.get('@summary')
         .contains('Total (EUR):')
         .next()
         .contains(parkingPrice)

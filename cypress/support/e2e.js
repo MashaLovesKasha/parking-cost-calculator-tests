@@ -1,7 +1,6 @@
 import './home-commands'
 import './booking-details-commands'
 import './payment-details-commands'
-import './confirmation-commands'
 import './common-comands'
 
 
